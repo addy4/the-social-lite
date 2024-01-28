@@ -7,3 +7,8 @@ type User struct {
 	Friends        []User `json:"friends,omitempty"`
 	Password       string `json:"-"`
 }
+
+type Party struct {
+	PartyTitle string `json:"partytitle,omitempty"`
+	Members    []User `json:"members,omitempty"`
+}

@@ -12,6 +12,30 @@ import (
 
 var ctxx = context.Background()
 
+func Testing() {
+
+	client := createRedisClient()
+	defer client.Close()
+
+	newParty := data.Party{
+		PartyTitle: "NewGame",
+		Members:    nil,
+	}
+
+	addPartyToDB(client, newParty)
+
+	partyForAdding, _ := getPartyFromDB(client, "NewGame")
+
+	fmt.Println(partyForAdding.PartyTitle)
+
+	member, _ := getUserFromDB(client, "kohli")
+
+	fmt.Println(member.UserName)
+
+	addMemberToParty(client, partyForAdding.PartyTitle, member)
+
+}
+
 func createRedisClient() *redis.Client {
 
 	client := redis.NewClient(&redis.Options{
@@ -21,6 +45,71 @@ func createRedisClient() *redis.Client {
 	})
 
 	return client
+}
+
+// Add Party to redis DB
+func addPartyToDB(client *redis.Client, party data.Party) error {
+
+	// Party To JSON
+	partyJSON, err := json.Marshal(party)
+	if err != nil {
+		return err
+	}
+
+	// Store Party as JSON in Hash "parties" with key party title
+	err = client.HSet(ctxx, "parties", party.PartyTitle, partyJSON).Err()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Gets JSON with key as party title which will then be converted to Party struct using Unmarshalling
+func getPartyFromDB(client *redis.Client, partytitle string) (data.Party, error) {
+
+	// Retrieve User as JSON from Redis hash "users"
+	partyJSON, err := client.HGet(ctxx, "parties", partytitle).Result()
+	if err != nil {
+		return data.Party{}, err
+	}
+
+	// Convert JSON string to User struct
+	var party data.Party
+	err = json.Unmarshal([]byte(partyJSON), &party)
+	if err != nil {
+		return data.Party{}, err
+	}
+
+	return party, nil
+}
+
+// Modify Party such that friend/User is added to Members[]data.User of party struct then saved again as JSON
+func addMemberToParty(client *redis.Client, partytitle string, newFriend data.User) error {
+
+	// Retrieve User JSON from Redis hash "users"
+	partyJSON, err := client.HGet(ctxx, "parties", partytitle).Result()
+	if err != nil {
+		return err
+	}
+
+	// Convert JSON to User struct
+	var party data.Party
+	err = json.Unmarshal([]byte(partyJSON), &party)
+	if err != nil {
+		return err
+	}
+
+	// Add new friend/User to the User's Friends[] list
+	party.Members = append(party.Members, newFriend)
+
+	// Re-Insert User using addUserToDB call
+	err = addPartyToDB(client, party)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Add User to redis DB
