@@ -9,3 +9,6 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+    ports:
+      - "4010:4010"
+      - "8089:8089"

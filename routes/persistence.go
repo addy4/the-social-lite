@@ -39,7 +39,8 @@ func Testing() {
 func createRedisClient() *redis.Client {
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr: "localhost:6379",
+		//Addr:     fmt.Sprintf("%s:6379", os.Getenv("REDIS_HOST")),
 		Password: "",
 		DB:       0,
 	})

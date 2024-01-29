@@ -4,14 +4,17 @@ FROM golang:latest
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Go application source code into the container
+# Copy the entire project directory into the container
 COPY . .
 
-# Install dependencies using go modules (replace with your dependency management system if needed)
+# Change the working directory to the services directory
+WORKDIR /app/services
+
+# Install dependencies using go modules
 RUN go mod download
 
-# Build the Go application
-RUN go build services\main.go
+# Build the Go application in the services directory
+RUN go build -o main main.go
 
 # Expose ports 4010 and 8089
 EXPOSE 4010
