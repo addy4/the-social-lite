@@ -1,24 +1,23 @@
-# Use the official Golang image as the base image
 FROM golang:latest
 
-# Set the working directory inside the container
+# set working directory
 WORKDIR /app
 
-# Copy the entire project directory into the container
+# Copy the entire project
 COPY . .
 
-# Change the working directory to the services directory
+# working directory to the services directory
 WORKDIR /app/services
 
-# Install dependencies using go modules
+# install dependencies
 RUN go mod download
 
-# Build the Go application in the services directory
+# build the app in the services directory
 RUN go build -o main main.go
 
 # Expose ports 4010 and 8089
 EXPOSE 4010
 EXPOSE 8089
 
-# Command to run the executable
+# executable
 CMD ["./main"]
