@@ -1,5 +1,5 @@
 # the-social-lite
-Microservice written for gaming applications
+Enabling seamless user connections for gaming applications through a tailored backend service for a networking platform.
 
 ## How To Run
 - Development/Local
