@@ -10,6 +10,16 @@ Microservice written for gaming applications
 - Production/Docker
   - docker compose up
 
+## Some design insights! 
+- Creating RESTful APIs with well defined structs as per the feature requirement. 
+- Using redis as a database.
+  - Light weight
+  - Low latency
+  - In memory
+- WebSocket server to which the user can connect.
+- Add basic Authentication to websocket server.
+- Notification to websocket clients for new connections.
+
 ## Features
 - Create __*Users*__
 - Add __*Friend*__ To User's Network
