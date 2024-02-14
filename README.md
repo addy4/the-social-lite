@@ -21,7 +21,7 @@ Enabling seamless user connections for gaming applications through a tailored ba
   - Low latency
   - In memory
 - WebSocket server to which the user can connect.
-- Add basic Authentication to websocket server.
+- Add basic Authentication to websocket server, this lets us know which username has come online. 
 - Notification to websocket clients for new connections.
 
 ## Features
@@ -73,7 +73,7 @@ Current User Follows Username
 
 ### 4. Add Party
 
-- **Endpoint:** `/api/pary`
+- **Endpoint:** `/api/party`
 - **Method:** `POST`
 - **Input:**
   ```json
@@ -81,4 +81,29 @@ Current User Follows Username
       "createparty": {
           "partytitle": "playo"
       }
+  }
+
+### 5. Add Members of Party
+
+- **Endpoint:** `/api/party/membership`
+- **Method:** `POST`
+- **Input:**
+  ```json
+  {
+    "addtoparty": {
+        "partytitle": "playo",
+        "username": "any_registered_user"
+    }
+}
+
+### 6. Get Members of Party
+
+- **Endpoint:** `/api/party/members`
+- **Method:** `GET`
+- **Input:**
+  ```json
+  {
+    "getpartymembers": {
+        "partytitle": "playo"
+    }
   }
