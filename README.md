@@ -1,6 +1,10 @@
 # the-social-lite
 Enabling seamless user connections for gaming applications through a tailored backend service for a networking platform.
 
+### Demo
+- [RESTful APIs](https://drive.google.com/file/d/11eMSiD0eE_2GMojzqMrpEmgV_y37IOgg/view?usp=sharing)
+- [Live WebSocket Notifications For Online Status](https://drive.google.com/file/d/1l8xuHOPP9v_aBJ4fNLtcePOkp6Egs2GJ/view?usp=sharing)
+
 ## How To Run
 - Development/Local
   - docker run -p 6379:6379 redis
